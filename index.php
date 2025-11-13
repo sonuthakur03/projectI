@@ -1,45 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WanderLux - Discover Your Next Dream Destination</title>
+    <link rel="stylesheet" href="./frontend/css/style.css">
+</head>
+
 <body>
-    <!DOCTYPE html>
-    <html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>WanderLux - Discover Your Next Dream Destination</title>
-        <link rel="stylesheet" href="./frontend/css/style.css">
-    </head>
-    <?php
-    include './frontend/header.php';
-    ?>
-    <?php
-    // Simple routing logic
-    $page = $_GET['page'] ?? 'home';
+<?php
+include __DIR__ . '/frontend/header.php';
 
-    switch ($page) {
-        case 'home':
-            include './frontend/home.php';
-            break;
-        case 'hotels':
-            include './frontend/hotels.php';
-            break;
-        case 'destinations':
-            include './frontend/destinations.php';
-            break;
-        case 'transport':
-            include './frontend/transport.php';
-            break;
-        default:
-            echo "<h1>404 Page Not Found</h1>";
-            break;
-    }
-    ?>
+// Routing logic
+$pages = ['home', 'hotels', 'destinations', 'transport'];
+$page = $_GET['page'] ?? 'home';
 
-    <?php
-    include './frontend/footer.php'
+$basePath = __DIR__ . "/frontend/";
 
-    ?>
+if (in_array($page, $pages)) {
+    include $basePath . $page . '.php';
+} else {
+    echo "<h1>404 Page Not Found</h1>";
+}
 
-    <script src="./frontend/js/index.js"></script>
+// include __DIR__ . '/frontend/footer.php';
+?>
+
+<script src="./frontend/js/index.js"></script>
+
 </body>
-
 </html>

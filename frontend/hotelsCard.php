@@ -1,5 +1,5 @@
 <?php
-include '../backend/connection.php';
+include __DIR__ . '/../backend/connection.php';
 
 $sql = "SELECT * FROM hotels";
 $result = $conn->query($sql);

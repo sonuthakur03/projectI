@@ -1,5 +1,5 @@
 <?php
-include '../backend/connection.php';
+include __DIR__ . '/../backend/connection.php';
 
 $sql = "SELECT * FROM transport";
 $result = $conn->query($sql);

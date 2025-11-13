@@ -7,8 +7,7 @@
 
 <body>
 
-    <?php include "header.php" ?>
-
+    <?php include __DIR__ . "/header.php"; ?>
     <!-- Hero -->
     <section class="heroDest">
         <h2>Explore Top Destinations</h2>
@@ -16,9 +15,9 @@
         <input type="text" class="search-box" placeholder="Search destinations, countries...">
     </section>
 
-    <?php include "./destinationsCard.php" ?>
+    <?php include __DIR__ . "/destinationsCard.php"; ?>>
 
-    <?php include "footer.php" ?>
+    <?php include __DIR__ . "/footer.php"; ?>
 
 </body>
 

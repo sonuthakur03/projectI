@@ -1,6 +1,6 @@
 <?php
 
-include '../backend/connection.php';
+include __DIR__ . '/../backend/connection.php';
 
 $sql = "SELECT title, country, description, best_season, price_range, highlights, image_url FROM destinations LIMIT 3";
 $destinations = $conn->query($sql);
