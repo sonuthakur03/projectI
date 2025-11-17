@@ -16,7 +16,7 @@ $result = $conn->query($sql);
                     <h3><?php echo $row['name']; ?></h3>
                     <p class="location"><?php echo $row['location']; ?></p>
                     <p class="desc"><?php echo $row['description']; ?></p>
-                    <div class="price">$<?php echo $row['price']; ?> <span>/ per night</span></div>
+                    <div class="price">NPR.<?php echo $row['price']; ?> <span>/ per night</span></div>
                     <div class="rating">⭐ <?php echo $row['rating']; ?> (<?php echo $row['reviews']; ?> reviews)</div>
                     <a href="#" class="book-btn">Book Now</a>
                 </div>

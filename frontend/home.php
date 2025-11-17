@@ -4,8 +4,8 @@
             <h1>Discover Your Next<br><span class="highlight">Dream Destination</span></h1>
             <p>Experience luxury travel with curated hotels, expert guides, and unforgettable journeys around the world</p>
             <div class="hero-buttons">
-                <a href="#" class="btn-primary">Explore Hotels</a>
-                <a href="#" class="btn-secondary">View Destinations</a>
+                <a href="?page=hotels" class="btn-primary">Explore Hotels</a>
+                <a href="?page=destinations" class="btn-secondary">View Destinations</a>
             </div>
         </div>
     </section>
@@ -71,8 +71,10 @@
             <h2>Ready to Start Your Adventure?</h2>
             <p>Join millions of travelers who trust WanderLux for their dream vacations. Book now and create memories that last a lifetime.</p>
             <div class="cta-buttons">
-                <a href="#" class="btn-primary">Find Hotels</a>
+                <a href="?page=hotels" class="btn-primary">Find Hotels</a>
                 <a href="#" class="btn-secondary">Sign Up Free</a>
             </div>
         </div>
     </section>
+
+        <?php include __DIR__ . "/footer.php"; ?>

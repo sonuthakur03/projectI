@@ -12,9 +12,9 @@
 
 <?php
 include __DIR__ . '/frontend/header.php';
-
+session_start();
 // Routing logic
-$pages = ['home', 'hotels', 'destinations', 'transport'];
+$pages = ['home', 'hotels', 'destinations', 'transport', 'signupPage', 'loginPage','dashboard'];
 $page = $_GET['page'] ?? 'home';
 
 $basePath = __DIR__ . "/frontend/";

@@ -1,6 +1,3 @@
-<?php
-session_start();
-?>
 
 <!-- Navigation -->
 <nav class="navbar">
@@ -48,10 +45,17 @@ session_start();
                 </li>
             <?php endif; ?>
         </ul>
-        <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true): ?>
-            <a href="logout.php" class="sign-in-btn">Logout</a>
-        <?php else: ?>
-            <a href="login.php" class="sign-in-btn">Sign In</a>
-        <?php endif; ?>
+
+<?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true): ?>
+    <!-- User is logged in -->
+    <a href="logout.php" class="sign-in-btn">Logout</a>
+<?php else: ?>
+    <!-- User is not logged in -->
+<div class="logButton">
+    <a href="?page=signupPage" class="btn-secondary">Sign Up</a>
+        <a href="?page=loginPage" class="btn-primary" style="margin-right: 10px;">Login</a>
+</div>
+<?php endif; ?>
+
     </div>
 </nav>

@@ -23,6 +23,6 @@ $result = $conn->query($sql);
             <?php } ?>
         </div>
 
-        <a href="./frontend/destinations.php" class="btn-primary">Explore All Destinations</a>
+        <a href="?page=destinations" class="btn-primary">Explore All Destinations</a>
     </div>
 </section>
