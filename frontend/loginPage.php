@@ -1,3 +1,10 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -82,16 +89,16 @@
 <div class="auth-container">
         <div class="logo">WanderLux</div>
         
-        <form method="POST" action="loginHandler.php">
+    <form method="POST" action="?page=loginHandler">
         <input type="email" name="email" placeholder="Enter email" required>
         <input type="password" name="password" placeholder="Enter password" required>
         <button class="auth-btn" type="submit">Login</button>
     </form>
 
     <!-- Signup Button -->
-    <form action="?page=signup">
+    <a href="?page=signupPage">
         <button class="auth-btn signup-btn" type="submit">Sign Up</button>
-    </form>
+    </a>
 
     <div class="auth-footer">
         By continuing, you agree to our <a href="#">Terms</a> & <a href="#">Privacy Policy</a>

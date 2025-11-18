@@ -1,3 +1,7 @@
+<?php
+session_start(); // Start session at the top
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,29 +9,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WanderLux - Discover Your Next Dream Destination</title>
-    <link rel="stylesheet" href="./frontend/css/style.css">
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="/projectI/frontend/css/style.css">
 </head>
 
 <body>
 
 <?php
-include __DIR__ . '/frontend/header.php';
-session_start();
-// Routing logic
-$pages = ['home', 'hotels', 'destinations', 'transport', 'signupPage', 'loginPage','dashboard'];
+
+
+// Pages allowed in frontend
+$frontendPages = ['home','hotels','destinations','transport','signupPage','loginPage','adminDashboard','userDashboard','manageDestinations'];
+
+// Pages allowed in backend
+$backendPages = ['logout','destinationsForm','hotelsForm','transportForm','loginHandler','signupHandler'];
+
 $page = $_GET['page'] ?? 'home';
 
-$basePath = __DIR__ . "/frontend/";
+// Include header always
+include __DIR__ . '/frontend/header.php';
 
-if (in_array($page, $pages)) {
-    include $basePath . $page . '.php';
+// Routing
+if (in_array($page, $frontendPages)) {
+    include __DIR__ . "/frontend/$page.php";
+} elseif (in_array($page, $backendPages)) {
+    include __DIR__ . "/backend/$page.php";
 } else {
-    echo "<h1>404 Page Not Found</h1>";
+    echo "<h1 style='text-align:center; margin-top:50px;'>404 Page Not Found</h1>";
 }
-
-// include __DIR__ . '/frontend/footer.php';
 ?>
+<script src="./frontend/js/index.js"></script>
 
+
+<!-- Main JS -->
 <script src="./frontend/js/index.js"></script>
 
 </body>

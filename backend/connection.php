@@ -1,15 +1,14 @@
 <?php
-// database connection
-$conn = new mysqli("localhost", "root", "");
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+// connection.php
+$host = 'localhost';
+$user = 'root';
+$pass = '';
+$db   = 'travel_db';
+
+$conn = new mysqli($host, $user, $pass, $db);
+if ($conn->connect_errno) {
+    die("DB Connection failed: " . $conn->connect_error);
 }
 
-$sql = "CREATE DATABASE IF NOT EXISTS travel_db";
-
-if ($conn->query($sql) === TRUE) {
-} else {
-    echo "Error creating database";
-}
-
-mysqli_select_db($conn, "travel_db");
+// set charset
+$conn->set_charset('utf8mb4');

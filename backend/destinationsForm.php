@@ -1,155 +1,142 @@
 <?php
-
-include './connection.php';
-
-$sql = "CREATE TABLE IF NOT EXISTS destinations(
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        title VARCHAR(50) NOT NULL,
-        country VARCHAR(50) NOT NULL,
-        description VARCHAR(400) NOT NULL,
-        best_season VARCHAR(50) NOT NULL,
-        price_range VARCHAR(50) NOT NULL,
-        highlights VARCHAR(200) NOT NULL,
-        image_url VARCHAR(400) NOT NULL
-)";
-
-if (!(mysqli_query($conn, $sql))) {
-    echo "Error creating database table: " . mysqli_error($conn);
+session_start();
+if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
+    header("Location: ../frontend/loginPage.php");
+    exit();
 }
 
-// handle form submit
+include __DIR__ . '/../backend/connection.php';
+
+
+$edit = false;
+$editData = null;
+
+if (isset($_GET['edit'])) {
+    $edit = true;
+    $id = $_GET['edit'];
+
+    $result = mysqli_query($conn, "SELECT * FROM destinations WHERE id=$id");
+    $editData = mysqli_fetch_assoc($result);
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $title = $_POST['title'];
-    $country = $_POST['country'];
+
+    $title       = $_POST['title'];
+    $country     = $_POST['country'];
     $description = $_POST['description'];
-    $best_season = $_POST['best_season'];
-    $price_range = $_POST['price_range'];
-    $highlights = $_POST['highlights'];
-    $image_url = $_POST['image_url'];
+    $best        = $_POST['best_season'];
+    $price       = $_POST['price_range'];
+    $high        = $_POST['highlights'];
+    $image       = $_POST['image_url'];
 
-    $sql = "INSERT INTO destinations (title, country, description, best_season, price_range, highlights, image_url) 
-            VALUES ('$title', '$country', '$description', '$best_season', '$price_range', '$highlights', '$image_url')";
-}
-if (!(mysqli_query($conn, $sql))) {
-    echo "Error intserting data in table: " . mysqli_error($conn);
-}
+    // if editing → update
+    if (isset($_POST['id']) && $_POST['id'] !== "") {
+        $id = $_POST['id'];
 
+        $sql = "UPDATE destinations SET 
+            title='$title',
+            country='$country',
+            description='$description',
+            best_season='$best',
+            price_range='$price',
+            highlights='$high',
+            image_url='$image'
+            WHERE id=$id";
+    }
+    // else → insert new
+    else {
+        $sql = "INSERT INTO destinations 
+        (title, country, description, best_season, price_range, highlights, image_url)
+        VALUES ('$title','$country','$description','$best','$price','$high','$image')";
+    }
+
+    mysqli_query($conn, $sql);
+
+    // After saving, go back to manage page
+    header("Location: index.php?page=manageDestinations");
+
+    exit();
+}
 ?>
-
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Destination</title>
-    <link rel="stylesheet" href="../frontend/css/style.css">
+    <title><?= $edit ? "Edit Destination" : "Add Destination" ?></title>
+    <link rel="stylesheet" href="/projectI/frontend/css/style.css">
+
+
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f6f8;
-        }
-
         .form-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            margin: 40px 0;
-        }
-
-        form {
+            max-width: 700px;
+            margin: 60px auto;
             background: #fff;
             padding: 30px;
             border-radius: 12px;
-            width: 80%;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border: 1px solid #000000ff;
         }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-top: 12px;
-            font-weight: bold;
-        }
-
-        input,
-        textarea,
-        select {
+        input, textarea {
             width: 100%;
             padding: 10px;
-            margin-top: 6px;
+            margin: 8px 0;
             border: 1px solid #ccc;
             border-radius: 8px;
         }
-
-        .dest {
-            margin: 20px auto;
-            display: block;
-            width: 33%;
-            padding: 12px;
+        button {
+            padding: 12px 20px;
+            background: #20c997;
+            color: white;
             border: none;
             border-radius: 8px;
-            background: #20c997;
-            font-weight: bold;
             cursor: pointer;
         }
-
-        button:hover {
-            background: #148865ff;
-        }
+        button:hover { background: #148865; }
+        img { max-width: 180px; border-radius: 10px; margin-top: 10px; }
     </style>
 </head>
-
 <body>
-    <?php
-    include '../frontend/header.php';
-    ?>
-    <div class="form-container">
-        <div class="result"></div>
-        <h2>Add Destination</h2>
-        <form method="POST">
-            <label for="title">Title</label>
-            <input type="text" id="title" name="title" required>
+    <?php include __DIR__ . '/../frontend/header.php'; ?>
 
-            <label for="country">Country</label>
-            <input type="text" id="country" name="country" required>
+<div class="form-container">
+    <h2><?= $edit ? "Edit Destination" : "Add New Destination" ?></h2>
 
-            <label for="description">Description</label>
-            <textarea id="description" name="description" rows="3" required></textarea>
+    <form method="POST">
 
-            <label for="best_season">Best Season</label>
-            <input type="text" id="best_season" name="best_season" required>
+        <!-- Hidden field for edit -->
+        <?php if ($edit): ?>
+            <input type="hidden" name="id" value="<?= $editData['id'] ?>">
+        <?php endif; ?>
 
-            <label for="price_range">Price Range</label>
-            <input type="text" id="price_range" name="price_range" required>
+        <label>Title</label>
+        <input type="text" name="title" required value="<?= $edit ? $editData['title'] : '' ?>">
 
-            <label for="highlights">Highlights</label>
-            <input type="text" id="highlights" name="highlights" required>
+        <label>Country</label>
+        <input type="text" name="country" required value="<?= $edit ? $editData['country'] : '' ?>">
 
-            <label for="image_url">Image URL (e.g. bali.jpg)</label>
-            <input type="text" id="image_url" name="image_url" required>
+        <label>Description</label>
+        <textarea name="description" rows="3"><?= $edit ? $editData['description'] : '' ?></textarea>
 
-            <button id="btn" class="dest" type="submit">Add Destination</button>
-        </form>
-    </div>
-    <?php
-    include '../frontend/footer.php';
-    ?>
-    <script>
-        const form = document.querySelector("form");
-        form.addEventListener("submit", function(e) {
-            e.preventDefault(); // stop page reload
-            document.querySelector(".result").innerHTML =
-                "<p style='color: green;'>New destination added successfully.</p>";
-            form.submit(); // now submit form to PHP
-        });
-    </script>
+        <label>Best Season</label>
+        <input type="text" name="best_season" required value="<?= $edit ? $editData['best_season'] : '' ?>">
 
+        <label>Price Range</label>
+        <input type="text" name="price_range" required value="<?= $edit ? $editData['price_range'] : '' ?>">
+
+        <label>Highlights</label>
+        <input type="text" name="highlights" required value="<?= $edit ? $editData['highlights'] : '' ?>">
+
+        <label>Image URL</label>
+        <input type="text" name="image_url" required value="<?= $edit ? $editData['image_url'] : '' ?>">
+
+        <!-- Preview image if editing -->
+        <?php if ($edit): ?>
+            <img src="<?= $editData['image_url'] ?>">
+        <?php endif; ?>
+
+        <button type="submit"><?= $edit ? "Update" : "Add" ?></button>
+    </form>
+</div>
+
+    <?php include __DIR__ . '/../frontend/footer.php'; ?>
 </body>
-
 </html>
