@@ -5,6 +5,30 @@ if (session_status() === PHP_SESSION_NONE) {
 
 include 'connection.php';
 
+// Create 'users' table if it doesn't exist
+$createTableSQL = "
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role ENUM('admin','user') DEFAULT 'user',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+";
+
+if (!mysqli_query($conn, $createTableSQL)) {
+    die("Error creating table: " . mysqli_error($conn));
+}
+
+// Optional: Insert a default admin user if table is empty
+$checkAdmin = mysqli_query($conn, "SELECT * FROM users WHERE role='admin'");
+if (mysqli_num_rows($checkAdmin) == 0) {
+    $defaultPassword = 'admin123'; // Change to a secure password
+    mysqli_query($conn, "INSERT INTO users (name, email, password, role) VALUES ('Admin', 'admin@example.com', '$defaultPassword', 'admin')");
+}
+
+// Login logic
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -25,10 +49,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Redirect based on role
             if ($user['role'] === 'admin') {
-                header("Location: index.php?page=adminDashboard"); // Admin dashboard
+                header("Location: index.php?page=adminDashboard");
                 exit;
             } else {
-                header("Location: index.php?page=userDashboard"); // User dashboard
+                header("Location: index.php?page=userDashboard");
                 exit;
             }
         } else {
