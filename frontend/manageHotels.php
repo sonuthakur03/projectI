@@ -1,31 +1,27 @@
 <?php
-if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
-    header("Location: ../frontend/loginPage.php");
-    exit();
-}
-
 include __DIR__ . '/../backend/connection.php';
 
 // Handle deletion
 if (isset($_GET['delete_id'])) {
-    $delete_id = $_GET['delete_id'];
-
-    mysqli_query($conn, "DELETE FROM destinations WHERE id='$delete_id'");
-    header("Location: manageDestinations.php");
+    $delete_id = intval($_GET['delete_id']); // sanitize input
+    mysqli_query($conn, "DELETE FROM hotels WHERE id='$delete_id'");
+    header("Location: index.php?page=manageHotels");
     exit();
 }
 
-// Fetch all destinations
-$result = mysqli_query($conn, "SELECT * FROM destinations ORDER BY id DESC");
+// Fetch hotels
+$result = mysqli_query($conn, "SELECT * FROM hotels ORDER BY id DESC");
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Destinations</title>
+    <title>Manage Hotels</title>
     <link rel="stylesheet" href="../frontend/css/style.css">
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -56,9 +52,12 @@ $result = mysqli_query($conn, "SELECT * FROM destinations ORDER BY id DESC");
             text-decoration: none;
             border-radius: 10px;
             font-weight: bold;
-            transition: background 0.3s ease;
+            transition: 0.3s ease;
         }
-        .btn-add:hover { background: #27ae60; }
+
+        .btn-add:hover {
+            background: #27ae60;
+        }
 
         table {
             width: 100%;
@@ -95,45 +94,37 @@ $result = mysqli_query($conn, "SELECT * FROM destinations ORDER BY id DESC");
             border-radius: 6px;
         }
 
-.actions {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-    height: 100%;
-}
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
 
-.btn {
-    padding: 8px 16px;
-    border-radius: 8px;
-    font-weight: bold;
-    text-decoration: none;
-    color: #fff;
-    transition: all 0.3s ease;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
-}
+        .btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-decoration: none;
+            color: #fff;
+            transition: 0.3s ease;
+        }
 
-.edit {
-    background: #3498db;
-}
+        .edit {
+            background: #3498db;
+        }
 
-.edit:hover {
-    background: #2980b9;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-}
+        .edit:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
 
-.delete {
-    background: #e74c3c;
-}
+        .delete {
+            background: #e74c3c;
+        }
 
-.delete:hover {
-    background: #c0392b;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-}
-
+        .delete:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
 
         @media (max-width: 768px) {
             table, tr, th, td {
@@ -142,12 +133,10 @@ $result = mysqli_query($conn, "SELECT * FROM destinations ORDER BY id DESC");
             th {
                 text-align: right;
                 padding-right: 50%;
-                position: relative;
             }
             td {
                 padding-left: 50%;
                 text-align: right;
-                position: relative;
             }
             td::before {
                 content: attr(data-label);
@@ -161,41 +150,52 @@ $result = mysqli_query($conn, "SELECT * FROM destinations ORDER BY id DESC");
     </style>
 </head>
 <body>
-    <?php include "header.php" ?>
+
+<?php include "header.php"; ?>
 
 <div class="container">
-        <h2>Manage Destinations</h2>
+    <h2>Manage Hotels</h2>
+
     <table>
         <tr>
             <th>ID</th>
-            <th>Title</th>
-            <th>Country</th>
-            <th>Best Season</th>
-            <th>Price Range</th>
-            <th>Highlights</th>
+            <th>Name</th>
+            <th>Location</th>
+            <th>Price</th>
+            <th>Rating</th>
+            <th>Reviews</th>
+            <th>Type</th>
             <th>Image</th>
             <th>Actions</th>
         </tr>
-        
-        <?php while($row = mysqli_fetch_assoc($result)) { ?>
+
+        <?php while ($row = mysqli_fetch_assoc($result)) { ?>
             <tr>
                 <td data-label="ID"><?= $row['id'] ?></td>
-                <td data-label="Title"><?= $row['title'] ?></td>
-                <td data-label="Country"><?= $row['country'] ?></td>
-                <td data-label="Best Season"><?= $row['best_season'] ?></td>
-                <td data-label="Price Range"><?= $row['price_range'] ?></td>
-                <td data-label="Highlights"><?= $row['highlights'] ?></td>
-                <td data-label="Image"><img src="<?= $row['image_url'] ?>" alt="<?= $row['title'] ?>"></td>
-                <td data-label="Actions" class="actions">
-                    <a href="index.php?page=destinationsForm&edit=<?= $row['id'] ?>" class="btn edit">Edit</a>
-                    <a href="manageDestinations.php?delete_id=<?= $row['id'] ?>" class="btn delete" onclick="return confirm('Are you sure?')">Delete</a>
+                <td data-label="Name"><?= $row['name'] ?></td>
+                <td data-label="Location"><?= $row['location'] ?></td>
+                <td data-label="Price">$<?= $row['price'] ?></td>
+                <td data-label="Rating"><?= $row['rating'] ?>/5</td>
+                <td data-label="Reviews"><?= $row['reviews'] ?></td>
+                <td data-label="Type"><?= $row['type'] ?></td>
+
+                <td data-label="Image">
+                    <img src="<?= $row['image_url'] ?>" alt="<?= $row['name'] ?>">
                 </td>
 
+                <td data-label="Actions" class="actions">
+                    <a href="index.php?page=hotelsForm&edit=<?= $row['id'] ?>" class="btn edit">Edit</a>
+                    <a href="index.php?page=manageHotels&delete_id=<?= $row['id'] ?>" class="btn delete" onclick="return confirm('Are you sure?')">Delete</a>
+                </td>
             </tr>
-            <?php } ?>
-        </table>
-        <a href="index.php?page=destinationsForm" class="btn-add">Add New Destination</a>
+        <?php } ?>
+
+    </table>
+
+    <a href="index.php?page=hotelsForm" class="btn-add">Add New Hotel</a>
 </div>
-    <?php include "footer.php" ?>
+
+<?php include "footer.php"; ?>
+
 </body>
 </html>

@@ -14,19 +14,19 @@
     <section class="stats">
         <div class="stats-container">
             <div class="stat-item animate-on-scroll">
-                <div class="stat-number">50,000+</div>
+                <div class="stat-number"></div>
                 <div class="stat-label">Hotels Worldwide</div>
             </div>
             <div class="stat-item animate-on-scroll">
-                <div class="stat-number">2M+</div>
+                <div class="stat-number">31</div>
                 <div class="stat-label">Happy Travelers</div>
             </div>
             <div class="stat-item animate-on-scroll">
-                <div class="stat-number">180+</div>
+                <div class="stat-number"></div>
                 <div class="stat-label">Countries Covered</div>
             </div>
             <div class="stat-item animate-on-scroll">
-                <div class="stat-number">4.9/5</div>
+                <div class="stat-number">5</div>
                 <div class="stat-label">Customer Rating</div>
             </div>
         </div>
@@ -72,7 +72,7 @@
             <p>Join millions of travelers who trust WanderLux for their dream vacations. Book now and create memories that last a lifetime.</p>
             <div class="cta-buttons">
                 <a href="?page=hotels" class="btn-primary">Find Hotels</a>
-                <a href="#" class="btn-secondary">Sign Up Free</a>
+                <a href="index.php?page=signupPage" class="btn-secondary">Sign Up Free</a>
             </div>
         </div>
     </section>

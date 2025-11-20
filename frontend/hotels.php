@@ -23,15 +23,6 @@
             margin-bottom: 10px;
         }
 
-        .search-box {
-            margin-top: 20px;
-            padding: 12px;
-            width: 60%;
-            border-radius: 10px;
-            border: none;
-            font-size: 1rem;
-        }
-
         .hotels {
             display: flex;
             justify-content: center;
@@ -113,7 +104,6 @@
     <section class="herohotel">
         <h1>Discover Premium Hotels</h1>
         <p>From luxury resorts to boutique experiences, find your perfect stay with exclusive deals and expert recommendations.</p>
-        <input type="text" class="search-box" placeholder="Search hotels, destinations...">
     </section>
 
     <?php include "hotelsCard.php" ?>

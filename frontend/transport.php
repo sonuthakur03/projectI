@@ -23,15 +23,6 @@
             margin-bottom: 10px;
         }
 
-        .search-box {
-            margin-top: 20px;
-            padding: 12px;
-            width: 60%;
-            border-radius: 10px;
-            border: none;
-            font-size: 1rem;
-        }
-
         .transport {
             display: flex;
             justify-content: center;
@@ -152,7 +143,6 @@
     <section class="hero">
         <h1>Reliable Transport Solutions</h1>
         <p>From buses and flights to car rentals and helicopter tours, find convenient and safe transport options for your journey across Nepal.</p>
-        <input type="text" class="search-box" placeholder="Search routes, transport types...">
     </section>
 
     <?php include "transportCard.php" ?>

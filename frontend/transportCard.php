@@ -1,6 +1,9 @@
 <?php
 include __DIR__ . '/../backend/connection.php';
 
+// Check if user is logged in
+$loggedIn = isset($_SESSION['user_role']) && in_array($_SESSION['user_role'], ['user', 'admin']);
+
 $sql = "SELECT * FROM transport";
 $result = $conn->query($sql);
 ?>
@@ -22,7 +25,13 @@ $result = $conn->query($sql);
                     </div>
                     <div class="price">NPR <?php echo $row['price']; ?> <span>/ per day</span></div>
                     <div class="rating">⭐ <?php echo $row['rating']; ?> (<?php echo $row['reviews']; ?> reviews)</div>
-                    <a href="#" class="book-btn">Book Now</a>
+
+                    <?php if ($loggedIn): ?>
+                        <a href="index.php?page=bookTransport&transport_id=<?php echo $row['id']; ?>" class="book-btn">Book Now</a>
+                    <?php else: ?>
+                        <a href="index.php?page=loginPage" class="book-btn">Login to Book</a>
+                    <?php endif; ?>
+
                 </div>
             </div>
         <?php endwhile; ?>

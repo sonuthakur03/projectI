@@ -19,10 +19,10 @@ session_start(); // Start session at the top
 
 
 // Pages allowed in frontend
-$frontendPages = ['home','hotels','destinations','transport','signupPage','loginPage','adminDashboard','userDashboard','manageDestinations'];
+$frontendPages = ['home','hotels','destinations','transport','signupPage','loginPage','adminDashboard','userDashboard','manageDestinations','manageHotels','manageTransport','manageUsers','manageBooking','manageUserBooking'];
 
 // Pages allowed in backend
-$backendPages = ['logout','destinationsForm','hotelsForm','transportForm','loginHandler','signupHandler'];
+$backendPages = ['logout','destinationsForm','hotelsForm','transportForm','loginHandler','signupHandler','bookHotel','bookTransport'];
 
 $page = $_GET['page'] ?? 'home';
 
@@ -38,8 +38,6 @@ if (in_array($page, $frontendPages)) {
     echo "<h1 style='text-align:center; margin-top:50px;'>404 Page Not Found</h1>";
 }
 ?>
-<script src="./frontend/js/index.js"></script>
-
 
 <!-- Main JS -->
 <script src="./frontend/js/index.js"></script>

@@ -1,23 +1,25 @@
 <?php
-include './connection.php';
-
-$sql = "CREATE TABLE IF NOT EXISTS hotels (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    location VARCHAR(100) NOT NULL,
-    description TEXT,
-    price DECIMAL(10,2),
-    rating DECIMAL(2,1),
-    reviews INT,
-    type VARCHAR(50),
-    image_url VARCHAR(255)
-)";
-
-if (!(mysqli_query($conn, $sql))) {
-    echo "Error creating database table: " . mysqli_error($conn);
+session_start();
+if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
+    header("Location: ../frontend/loginPage.php");
+    exit();
 }
 
-// handle form submit
+include __DIR__ . '/../backend/connection.php';
+
+// Initialize variables for edit
+$edit = false;
+$editData = null;
+
+if (isset($_GET['edit'])) {
+    $edit = true;
+    $id = $_GET['edit'];
+
+    $result = mysqli_query($conn, "SELECT * FROM hotels WHERE id=$id");
+    $editData = mysqli_fetch_assoc($result);
+}
+
+// Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
     $location = $_POST['location'];
@@ -28,131 +30,113 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $type = $_POST['type'];
     $image_url = $_POST['image_url'];
 
-    $sql = "INSERT INTO hotels (name, location, description, price, rating, reviews, type, image_url) 
-            VALUES ('$name', '$location', '$description', '$price', '$rating', '$reviews', '$type', '$image_url')";
-
-    if (!(mysqli_query($conn, $sql))) {
-        echo "Error inserting data in table: " . mysqli_error($conn);
+    // Update if editing
+    if (isset($_POST['id']) && $_POST['id'] !== "") {
+        $id = $_POST['id'];
+        $sql = "UPDATE hotels SET
+            name='$name',
+            location='$location',
+            description='$description',
+            price='$price',
+            rating='$rating',
+            reviews='$reviews',
+            type='$type',
+            image_url='$image_url'
+            WHERE id=$id";
+    } 
+    // Insert new
+    else {
+        $sql = "INSERT INTO hotels 
+        (name, location, description, price, rating, reviews, type, image_url)
+        VALUES ('$name','$location','$description','$price','$rating','$reviews','$type','$image_url')";
     }
+
+    mysqli_query($conn, $sql);
+
+    // Redirect after saving
+    header("Location: index.php?page=manageHotels");
+    exit();
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Hotel</title>
-    <link rel="stylesheet" href="../frontend/css/style.css">
+    <title><?= $edit ? "Edit Hotel" : "Add Hotel" ?></title>
+    <link rel="stylesheet" href="/projectI/frontend/css/style.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f6f8;
-        }
-
         .form-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            margin: 40px 0;
-        }
-
-        form {
+            max-width: 700px;
+            margin: 60px auto;
             background: #fff;
             padding: 30px;
             border-radius: 12px;
-            width: 80%;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border: 1px solid #000000ff;
         }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-top: 12px;
-            font-weight: bold;
-        }
-
-        input,
-        textarea,
-        select {
+        input, textarea {
             width: 100%;
             padding: 10px;
-            margin-top: 6px;
+            margin: 8px 0;
             border: 1px solid #ccc;
             border-radius: 8px;
         }
-
-        .btn {
-            margin: 20px auto;
-            display: block;
-            width: 33%;
-            padding: 12px;
+        button {
+            padding: 12px 20px;
+            background: #20c997;
+            color: white;
             border: none;
             border-radius: 8px;
-            background: #20c997;
-            font-weight: bold;
             cursor: pointer;
         }
-
-        .btn:hover {
-            background: #148865ff;
-        }
+        button:hover { background: #148865; }
+        img { max-width: 180px; border-radius: 10px; margin-top: 10px; }
     </style>
 </head>
-
 <body>
-    <?php include '../frontend/header.php'; ?>
+    <?php include __DIR__ . '/../frontend/header.php'; ?>
 
     <div class="form-container">
-        <div class="result"></div>
-        <h2>Add Hotel</h2>
+        <h2><?= $edit ? "Edit Hotel" : "Add New Hotel" ?></h2>
+
         <form method="POST">
-            <label for="name">Hotel Name</label>
-            <input type="text" id="name" name="name" required>
+            <?php if ($edit): ?>
+                <input type="hidden" name="id" value="<?= $editData['id'] ?>">
+            <?php endif; ?>
 
-            <label for="location">Location</label>
-            <input type="text" id="location" name="location" required>
+            <label>Hotel Name</label>
+            <input type="text" name="name" required value="<?= $edit ? $editData['name'] : '' ?>">
 
-            <label for="description">Description</label>
-            <textarea id="description" name="description" rows="3"></textarea>
+            <label>Location</label>
+            <input type="text" name="location" required value="<?= $edit ? $editData['location'] : '' ?>">
 
-            <label for="price">Price (NPR)</label>
-            <input type="number" step="0.01" id="price" name="price" required>
+            <label>Description</label>
+            <textarea name="description" rows="3"><?= $edit ? $editData['description'] : '' ?></textarea>
 
-            <label for="rating">Rating (e.g. 4.5)</label>
-            <input type="number" step="0.1" id="rating" name="rating">
+            <label>Price (NPR)</label>
+            <input type="number" step="0.01" name="price" required value="<?= $edit ? $editData['price'] : '' ?>">
 
-            <label for="reviews">Number of Reviews</label>
-            <input type="number" id="reviews" name="reviews">
+            <label>Rating</label>
+            <input type="number" step="0.1" name="rating" value="<?= $edit ? $editData['rating'] : '' ?>">
 
-            <label for="type">Type</label>
-            <input type="text" id="type" name="type" placeholder="Luxury, Budget, Resort, etc.">
+            <label>Number of Reviews</label>
+            <input type="number" name="reviews" value="<?= $edit ? $editData['reviews'] : '' ?>">
 
-            <label for="image_url">Image URL</label>
-            <input type="text" id="image_url" name="image_url">
+            <label>Type</label>
+            <input type="text" name="type" placeholder="Luxury, Budget, Resort, etc." value="<?= $edit ? $editData['type'] : '' ?>">
 
-            <button id="btn" class="btn" type="submit">Add Hotel</button>
+            <label>Image URL</label>
+            <input type="text" name="image_url" value="<?= $edit ? $editData['image_url'] : '' ?>">
+
+            <?php if ($edit): ?>
+                <img src="<?= $editData['image_url'] ?>" alt="Hotel Image">
+            <?php endif; ?>
+
+            <button type="submit"><?= $edit ? "Update" : "Add" ?></button>
         </form>
     </div>
 
-    <?php include '../frontend/footer.php'; ?>
-
-    <script>
-        const form = document.querySelector("form");
-        form.addEventListener("submit", function(e) {
-            e.preventDefault(); // stop page reload
-            document.querySelector(".result").innerHTML =
-                "<p style='color: green;'>New hotel added successfully.</p>";
-            form.submit(); // now submit form to PHP
-        });
-    </script>
-
+    <?php include __DIR__ . '/../frontend/footer.php'; ?>
 </body>
-
 </html>

@@ -18,7 +18,17 @@ $result = $conn->query($sql);
                     <p class="desc"><?php echo $row['description']; ?></p>
                     <div class="price">NPR.<?php echo $row['price']; ?> <span>/ per night</span></div>
                     <div class="rating">⭐ <?php echo $row['rating']; ?> (<?php echo $row['reviews']; ?> reviews)</div>
-                    <a href="#" class="book-btn">Book Now</a>
+
+                    <?php
+                    if (isset($_SESSION['user_role'])) {
+                        // User is logged in → go to booking page
+                        $link = "index.php?page=bookHotel&hotel_id=" . $row['id'];
+                    } else {
+                        // Not logged in → go to login page
+                        $link = "index.php?page=loginPage";
+                    }
+                    ?>
+                    <a href="<?php echo $link; ?>" class="book-btn">Book Now</a>
                 </div>
             </div>
         <?php endwhile; ?>
