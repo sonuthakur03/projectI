@@ -104,22 +104,83 @@ $result = mysqli_query($conn, $sql);
 </div>
 
 <style>
-.manage-container { width: 95%; margin: 20px auto; font-family: Arial, sans-serif; }
-h2 { text-align: center; margin-bottom: 20px; }
-.btn-group { display: flex; justify-content: center; margin-bottom: 20px; gap: 10px; }
-.btn { padding: 10px 20px; border-radius: 5px; background-color: #007bff; color: #fff; text-decoration: none; font-weight: bold; transition: 0.3s; }
-.btn:hover { opacity: 0.8; }
-.btn.active { background-color: #0056b3; }
-.booking-table { width: 100%; border-collapse: collapse; }
-.booking-table th, .booking-table td { border: 1px solid #ddd; padding: 12px; text-align: center; }
-.booking-table th { background-color: #f4f4f4; }
-.booking-table tr:nth-child(even) { background-color: #f9f9f9; }
-.btn-delete { padding: 5px 10px; background-color: #dc3545; color: white; border-radius: 5px; text-decoration: none; margin-left: 5px; }
-.btn-delete:hover { opacity: 0.8; }
-.btn-approve { padding: 5px 10px; background-color: #28a745; color: white; border-radius: 5px; text-decoration: none; }
-.btn-approve:hover { opacity: 0.8; }
-/* Status colors */
-.status.pending { color: orange; font-weight: bold; }
-.status.confirmed { color: green; font-weight: bold; }
-.status.cancelled { color: red; font-weight: bold; }
+    .manage-container { 
+        width: 95%; 
+        margin: 20px auto; 
+        font-family: Arial, sans-serif; 
+    }
+    h2 { 
+        text-align: center; 
+        margin-bottom: 20px; 
+    }
+    .btn-group { 
+        display: flex; 
+        justify-content: center; 
+        margin-bottom: 20px; 
+        gap: 10px; 
+    }
+    .btn { 
+        padding: 10px 20px; 
+        border-radius: 5px; 
+        background-color: #007bff; 
+        color: #fff; 
+        text-decoration: none; 
+        font-weight: bold; 
+        transition: 0.3s; 
+    }
+    .btn:hover { 
+        opacity: 0.8; 
+    }
+    .btn.active { 
+        background-color: #0056b3; 
+    }
+    .booking-table { 
+        width: 100%; 
+        border-collapse: collapse; 
+    }
+    .booking-table th, .booking-table td { 
+        border: 1px solid #ddd; 
+        padding: 12px; 
+        text-align: center; 
+    }
+    .booking-table th { 
+        background-color: #f4f4f4; 
+    }
+    .booking-table tr:nth-child(even) { 
+        background-color: #f9f9f9; 
+    }
+    .btn-delete { 
+        padding: 5px 10px; 
+        background-color: #dc3545; 
+        color: white; 
+        border-radius: 5px; 
+        text-decoration: none; 
+        margin-left: 5px; 
+    }
+    .btn-delete:hover { 
+        opacity: 0.8; 
+    }
+    .btn-approve { 
+        padding: 5px 10px; 
+        background-color: #28a745; 
+        color: white; 
+        border-radius: 5px; 
+        text-decoration: none; 
+    }
+    .btn-approve:hover { 
+        opacity: 0.8; 
+    }
+    /* Status colors */
+    .status.pending { 
+        color: orange; 
+        font-weight: bold; 
+    }
+    .status.confirmed { 
+        color: green; 
+        font-weight: bold;
+    }
+    .status.cancelled { 
+        color: red; 
+        font-weight: bold; 
+    }
 </style>

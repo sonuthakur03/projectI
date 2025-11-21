@@ -30,43 +30,156 @@ $transportBookings = mysqli_query($conn, "
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>User Dashboard - WanderLux</title>
-<link rel="stylesheet" href="../frontend/css/style.css">
-<style>
-body { font-family: Arial,sans-serif; margin:0; padding:0; background:#f2f2f2; }
-.page-wrapper { display:flex; margin-top:60px;height:calc(100vh - 60px); }
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - WanderLux</title>
+    <link rel="stylesheet" href="../frontend/css/style.css">
+        <style>
+            body { 
+                font-family: Arial,sans-serif; 
+                margin:0; 
+                padding:0; 
+                background:#f2f2f2; 
+            }
+            .page-wrapper { 
+                display:flex; 
+                margin-top:60px;
+                height:calc(100vh - 60px); 
+            }
 
-/* Sidebar */
-.sidebar { width:250px; background:#00a38eff; color:white; padding:40px 20px; position:sticky; top:0; display:flex; flex-direction:column; }
-.sidebar .profile h3 { margin:0; font-size:2rem; background:white; color:#584db1ff; width:70px; height:70px; line-height:70px; text-align:center; border-radius:50%; font-weight:bold; }
-.sidebar .profile p { font-size:0.9rem; color:#e0e0ff; margin-top:10px; text-align:center; }
-.sidebar nav a { display:block; padding:12px 15px; margin:10px 0; background:rgba(255,255,255,0.1); color:white; border-radius:8px; text-decoration:none; transition:0.2s; }
-.sidebar nav a:hover, .sidebar nav a.active { background:rgba(255,255,255,0.2); }
+            /* Sidebar */
+            .sidebar { 
+                width:250px; 
+                background:#00a38eff; 
+                color:white; 
+                padding:40px 20px; 
+                position:sticky; 
+                top:0; 
+                display:flex; 
+                flex-direction:column; 
+            }
+            .sidebar .profile h3 { 
+                margin:0; 
+                font-size:2rem; 
+                background:white; 
+                color:#584db1ff; 
+                width:70px; 
+                height:70px; 
+                line-height:70px; 
+                text-align:center; 
+                border-radius:50%; 
+                font-weight:bold; 
+            }
+            .sidebar .profile p { 
+                font-size:0.9rem; 
+                color:#e0e0ff; 
+                margin-top:10px; 
+                text-align:center; 
+            }
+            .sidebar nav a { 
+                display:block; 
+                padding:12px 15px; 
+                margin:10px 0; 
+                background:rgba(255,255,255,0.1); 
+                color:white; 
+                border-radius:8px; 
+                text-decoration:none; 
+                transition:0.2s; 
+            }
+            .sidebar nav a:hover, .sidebar nav a.active { 
+                background:rgba(255,255,255,0.2); 
+            }
 
-/* Main content */
-.main-content { flex:1; padding:40px; }
-h1 { text-align:center; color:#333; margin-bottom:30px; }
+            /* Main content */
+            .main-content { 
+                flex:1; padding:40px; 
+            }
+            h1 { 
+                text-align:center; 
+                color:#333;
+                margin-bottom:30px; 
+            }
 
-/* Dashboard cards */
-.cards { display:grid; grid-template-columns:repeat(auto-fit, minmax(250px,1fr)); gap:30px; justify-items:center; }
-.card { display:flex; flex-direction:column; align-items:center; width:100%; min-height:150px; background:#ffffff; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); padding:20px; text-align:center; transition:transform 0.2s ease; cursor:pointer; }
-.card:hover { transform:translateY(-5px); box-shadow:0 8px 20px rgba(0,0,0,0.15); }
-.card-icon { font-size:3rem; margin-bottom:15px; }
-.card h3 { margin-bottom:10px; color:#6c5ce7; }
-.card a { text-decoration:none; color:#fff; background:#00b894; padding:10px 20px; border-radius:10px; font-weight:bold; transition:background 0.3s ease; }
-.card a:hover { background:#019870; }
+            /* Dashboard cards */
+            .cards { 
+                display:grid; 
+                grid-template-columns:repeat(auto-fit, minmax(250px,1fr)); 
+                gap:30px; 
+                justify-items:center; 
+            }
+            .card { 
+                display:flex; 
+                flex-direction:column; 
+                align-items:center; 
+                width:100%; 
+                min-height:150px; 
+                background:#ffffff; 
+                border-radius:15px; 
+                box-shadow:0 4px 10px rgba(0,0,0,0.1); 
+                padding:20px; 
+                text-align:center; 
+                transition:transform 0.2s ease; 
+                cursor:pointer; 
+            }
+            .card:hover { 
+                transform:translateY(-5px); 
+                box-shadow:0 8px 20px rgba(0,0,0,0.15); 
+            }
+            .card-icon { 
+                font-size:3rem; 
+                margin-bottom:15px; 
+            }
+            .card h3 { 
+                margin-bottom:10px; 
+                color:#6c5ce7; 
+            }
+            .card a { 
+                text-decoration:none;
+                color:#fff; 
+                background:#00b894;
+                padding:10px 20px; 
+                border-radius:10px; 
+                font-weight:bold; 
+                transition:background 0.3s ease; 
+            }
+            .card a:hover { 
+                background:#019870; 
+            }
 
-/* Booking cards */
-.booking-card { background:#fdfdfd; border-left:5px solid #6c5ce7; margin-bottom:15px; padding:15px 20px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.1); width:100%; text-align:left; }
-.booking-card h4 { margin:0 0 10px 0; color:#584db1; }
-.booking-card p { margin:3px 0; color:#333; }
-.booking-card a { margin-right:10px; padding:5px 10px; border-radius:5px; background:#6c5ce7; color:#fff; text-decoration:none; font-size:0.9rem; }
-.booking-card a.delete { background:#ff7675; }
-</style>
-</head>
+            /* Booking cards */
+            .booking-card { 
+                background:#fdfdfd;
+                border-left:5px solid #6c5ce7; 
+                margin-bottom:15px; 
+                padding:15px 20px; 
+                border-radius:10px; 
+                box-shadow:0 2px 8px rgba(0,0,0,0.1); 
+                width:100%; 
+                text-align:left; 
+            }
+            .booking-card h4 { 
+                margin:0 0 10px 0; 
+                color:#584db1; 
+            }
+            .booking-card p { 
+                margin:3px 0; 
+                color:#333; 
+            }
+            .booking-card a { 
+                margin-right:10px; 
+                padding:5px 10px; 
+                border-radius:5px; 
+                background:#6c5ce7; 
+                color:#fff; 
+                text-decoration:none; 
+                font-size:0.9rem; 
+            }
+            .booking-card a.delete { 
+                background:#ff7675; 
+            }
+        </style>
+    </head>
 <body>
 
 <div class="page-wrapper">

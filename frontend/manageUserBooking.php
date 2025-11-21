@@ -70,29 +70,91 @@ if (isset($_GET['edit_id'])) {
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Bookings - WanderLux</title>
-<link rel="stylesheet" href="../frontend/css/style.css">
-<style>
-body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f2f2f2; }
-.page-wrapper { display:flex; margin-top:60px; }
-.main-content { flex:1; padding:40px; }
-h1 { text-align:center; color:#333; margin-bottom:30px; }
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Bookings - WanderLux</title>
+    <link rel="stylesheet" href="../frontend/css/style.css">
+        <style>
+            body { 
+                font-family: Arial, sans-serif; 
+                margin:0; 
+                padding:0; 
+                background:#f2f2f2; 
+            }
+            .page-wrapper { 
+                display:flex; 
+                margin-top:60px; 
+            }
+            .main-content { 
+                flex:1; 
+                padding:40px; 
+            }
+            h1 { 
+                text-align:center; 
+                color:#333; 
+                margin-bottom:30px; 
+            }
 
-.booking-card { background:#fdfdfd; border-left:5px solid #6c5ce7; margin-bottom:15px; padding:15px 20px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.1); width:100%; text-align:left; }
-.booking-card h4 { margin:0 0 10px 0; color:#584db1; }
-.booking-card p { margin:3px 0; color:#333; }
-.booking-card a { margin-right:10px; padding:5px 10px; border-radius:5px; background:#6c5ce7; color:#fff; text-decoration:none; font-size:0.9rem; }
-.booking-card a.delete { background:#ff7675; }
+            .booking-card { 
+                background:#fdfdfd; 
+                border-left:5px solid #6c5ce7; 
+                margin-bottom:15px; 
+                padding:15px 20px; 
+                border-radius:10px; 
+                box-shadow:0 2px 8px rgba(0,0,0,0.1); 
+                width:100%; 
+                text-align:left; 
+            }
+            .booking-card h4 { 
+                margin:0 0 10px 0; 
+                color:#584db1; 
+            }
+            .booking-card p { 
+                margin:3px 0; 
+                color:#333; 
+            }
+            .booking-card a { 
+                margin-right:10px; 
+                padding:5px 10px; 
+                border-radius:5px; 
+                background:#6c5ce7; 
+                color:#fff; 
+                text-decoration:none; 
+                font-size:0.9rem; 
+            }
+            .booking-card a.delete { 
+                background:#ff7675;
+            }
 
-.edit-form { background:#fff; padding:20px; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,0.1); margin-bottom:20px; width:400px; }
-.edit-form input { width:100%; padding:8px 10px; margin-bottom:10px; border-radius:5px; border:1px solid #ccc; }
-.edit-form button { padding:8px 15px; border:none; border-radius:5px; background:#6c5ce7; color:#fff; cursor:pointer; }
-.edit-form button:hover { background:#584db1; }
-</style>
-</head>
+            .edit-form { 
+                background:#fff; 
+                padding:20px; 
+                border-radius:10px;
+                box-shadow:0 2px 10px rgba(0,0,0,0.1); 
+                margin-bottom:20px; 
+                width:400px; 
+            }
+            .edit-form input { 
+                width:100%; 
+                padding:8px 10px; 
+                margin-bottom:10px; 
+                border-radius:5px; 
+                border:1px solid #ccc; 
+            }
+            .edit-form button { 
+                padding:8px 15px; 
+                border:none; 
+                border-radius:5px; 
+                background:#6c5ce7; 
+                color:#fff; 
+                cursor:pointer; 
+            }
+            .edit-form button:hover { 
+                background:#584db1; 
+            }
+        </style>
+    </head>
 <body>
 
 <div class="page-wrapper">
