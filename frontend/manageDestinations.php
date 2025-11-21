@@ -11,7 +11,7 @@ if (isset($_GET['delete_id'])) {
     $delete_id = $_GET['delete_id'];
 
     mysqli_query($conn, "DELETE FROM destinations WHERE id='$delete_id'");
-    header("Location: manageDestinations.php");
+    header("Location: index.php?page=manageDestinations");
     exit();
 }
 
@@ -188,7 +188,12 @@ $result = mysqli_query($conn, "SELECT * FROM destinations ORDER BY id DESC");
                 <td data-label="Image"><img src="<?= $row['image_url'] ?>" alt="<?= $row['title'] ?>"></td>
                 <td data-label="Actions" class="actions">
                     <a href="index.php?page=destinationsForm&edit=<?= $row['id'] ?>" class="btn edit">Edit</a>
-                    <a href="manageDestinations.php?delete_id=<?= $row['id'] ?>" class="btn delete" onclick="return confirm('Are you sure?')">Delete</a>
+                    <a href="index.php?page=manageDestinations&delete_id=<?= $row['id'] ?>" 
+                    class="btn delete" 
+                    onclick="return confirm('Are you sure?')">
+                    Delete
+                    </a>
+
                 </td>
 
             </tr>

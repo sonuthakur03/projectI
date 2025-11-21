@@ -4,7 +4,6 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,10 +28,19 @@ if (session_status() === PHP_SESSION_NONE) {
             text-align: center;
         }
 
-
         .auth-container h2 {
             margin-bottom: 25px;
             color: #333;
+        }
+
+        .error-box {
+            background: #ffdddd;
+            color: #d9534f;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #d9534f;
+            border-radius: 8px;
+            font-weight: bold;
         }
 
         .auth-container input {
@@ -80,28 +88,43 @@ if (session_status() === PHP_SESSION_NONE) {
             text-decoration: none;
             font-weight: bold;
         }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #6c5ce7;
+        }
     </style>
 </head>
 
 <body>
 
 <div class="auth-container">
+
         <div class="logo">WanderLux</div>
-        
-    <form method="POST" action="index.php?page=loginHandler">
-        <input type="email" name="email" placeholder="Enter email" required>
-        <input type="password" name="password" placeholder="Enter password" required>
-        <button class="auth-btn" type="submit">Login</button>
-    </form>
 
-    <!-- Signup Button -->
-    <a href="index.php?page=signupPage">
-        <button class="auth-btn signup-btn" type="submit">Sign Up</button>
-    </a>
+        <!-- Error Message -->
+        <?php 
+        if (isset($_SESSION['error'])) { 
+            echo "<div class='error-box'>" . $_SESSION['error'] . "</div>";
+            unset($_SESSION['error']); 
+        } 
+        ?>
 
-    <div class="auth-footer">
-        By continuing, you agree to our <a href="#">Terms</a> & <a href="#">Privacy Policy</a>
-    </div>
+        <form method="POST" action="index.php?page=loginHandler">
+            <input type="email" name="email" placeholder="Enter email" required>
+            <input type="password" name="password" placeholder="Enter password" required>
+            <button class="auth-btn" type="submit">Login</button>
+        </form>
+
+        <a href="index.php?page=signupPage">
+            <button class="auth-btn signup-btn" type="button">Sign Up</button>
+        </a>
+
+        <div class="auth-footer">
+            By continuing, you agree to our <a href="#">Terms</a> & <a href="#">Privacy Policy</a>
+        </div>
 </div>
 
 </body>

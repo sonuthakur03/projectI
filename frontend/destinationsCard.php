@@ -2,7 +2,7 @@
 
 include __DIR__ . '/../backend/connection.php';
 
-$sql = "SELECT title, country, description, best_season, price_range, highlights, image_url FROM destinations LIMIT 3";
+$sql = "SELECT title, country, description, best_season, price_range, highlights, image_url FROM destinations";
 $destinations = $conn->query($sql);
 
 ?>

@@ -28,26 +28,24 @@ if (mysqli_num_rows($checkAdmin) == 0) {
     mysqli_query($conn, "INSERT INTO users (name, email, password, role) VALUES ('Admin', 'admin@example.com', '$defaultPassword', 'admin')");
 }
 
-// Login logic
+// Handle login
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    // Fetch user by email
     $sql = "SELECT * FROM users WHERE email='$email'";
     $result = mysqli_query($conn, $sql);
 
     if (mysqli_num_rows($result) == 1) {
         $user = mysqli_fetch_assoc($result);
 
-        // Verify password (passwords recommended)
+        // Password check
         if ($password === $user['password']) {
             $_SESSION['logged_in'] = true;
             $_SESSION['user_id'] = $user['id'];
-            $_SESSION['user_role'] = $user['role']; // 'admin' or 'user'
+            $_SESSION['user_role'] = $user['role'];
             $_SESSION['user_name'] = $user['name'];
 
-            // Redirect based on role
             if ($user['role'] === 'admin') {
                 header("Location: index.php?page=adminDashboard");
                 exit;
@@ -56,10 +54,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 exit;
             }
         } else {
-            echo "<p style='color:red;'>Incorrect password!</p>";
+            $_SESSION['error'] = "Incorrect password!";
+            header("Location: index.php?page=loginPage");
+            exit();
         }
     } else {
-        echo "<p style='color:red;'>User not found!</p>";
+        $_SESSION['error'] = "User not found!";
+        header("Location: index.php?page=loginPage");
+        exit();
     }
 }
-?>
+
