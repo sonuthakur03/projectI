@@ -37,7 +37,7 @@ $transportBookings = mysqli_query($conn, "
 <link rel="stylesheet" href="../frontend/css/style.css">
 <style>
 body { font-family: Arial,sans-serif; margin:0; padding:0; background:#f2f2f2; }
-.page-wrapper { display:flex; margin-top:60px; }
+.page-wrapper { display:flex; margin-top:60px;height:calc(100vh - 60px); }
 
 /* Sidebar */
 .sidebar { width:250px; background:#00a38eff; color:white; padding:40px 20px; position:sticky; top:0; display:flex; flex-direction:column; }

@@ -105,7 +105,7 @@
 <div class="auth-container">
     <div class="logo">WanderLux</div>
     
-    <form method="POST" action="backend/signupHandler.php">
+    <form method="POST" action="index.php?page=signupHandler">
         <input type="text" name="name" placeholder="Full Name" required>
         <input type="email" name="email" placeholder="Email Address" required>
         <input type="password" name="password" placeholder="Create Password" required>
@@ -113,7 +113,7 @@
     </form>
 
     <!-- Login link as button -->
-    <a href="?page=loginPage" class="auth-btn login-btn">Login</a>
+    <a href="index.php?page=loginPage" class="auth-btn login-btn">Login</a>
 
     <div class="auth-footer">
         By continuing, you agree to our <a href="#">Terms</a> & <a href="#">Privacy Policy</a>

@@ -9,7 +9,6 @@ if (session_status() === PHP_SESSION_NONE) {
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" href="./css/style.css">
     <style>
         body {
             margin: 0;
@@ -89,14 +88,14 @@ if (session_status() === PHP_SESSION_NONE) {
 <div class="auth-container">
         <div class="logo">WanderLux</div>
         
-    <form method="POST" action="?page=loginHandler">
+    <form method="POST" action="index.php?page=loginHandler">
         <input type="email" name="email" placeholder="Enter email" required>
         <input type="password" name="password" placeholder="Enter password" required>
         <button class="auth-btn" type="submit">Login</button>
     </form>
 
     <!-- Signup Button -->
-    <a href="?page=signupPage">
+    <a href="index.php?page=signupPage">
         <button class="auth-btn signup-btn" type="submit">Sign Up</button>
     </a>
 

@@ -21,7 +21,6 @@ $totalTransportBookings = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin Dashboard - WanderLux</title>
-<link rel="stylesheet" href="../frontend/css/style.css">
 <style>
 /* same styling as before */
 body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f2f2f2; }

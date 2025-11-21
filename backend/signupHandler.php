@@ -1,6 +1,6 @@
 <?php
-session_start();
-include './connection.php';
+include 'connection.php';
+
 
 // create users table if not exists
 $users = "CREATE TABLE IF NOT EXISTS users(
@@ -23,11 +23,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if (mysqli_query($conn, $sql)) {
         $_SESSION["message"] = "Signup Successful! Please Login.";
-        header("Location: ../frontend/loginPage.php");
+        header("Location: index.php?page=loginPage");
         exit();
     } else {
         $_SESSION["error"] = "Email already exists or error occurred!";
-        header("Location: ../frontend/signupPage.php");
+        header("Location: index.php?page=signupPage");
         exit();
     }
 }
