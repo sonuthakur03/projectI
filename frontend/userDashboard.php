@@ -45,7 +45,7 @@ $transportBookings = mysqli_query($conn, "
             .page-wrapper { 
                 display:flex; 
                 margin-top:60px;
-                height:calc(100vh - 60px); 
+                height:calc(100% - 60px); 
             }
 
             /* Sidebar */
@@ -60,7 +60,7 @@ $transportBookings = mysqli_query($conn, "
                 flex-direction:column; 
             }
             .sidebar .profile h3 { 
-                margin:0; 
+                margin:0 auto; 
                 font-size:2rem; 
                 background:white; 
                 color:#584db1ff; 
