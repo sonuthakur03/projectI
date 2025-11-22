@@ -9,9 +9,8 @@
             <div class="footer-section">
                 <h3>Quick Links</h3>
                 <ul>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Terms of Service</a></li>
-                    <li><a href="#">Help Center</a></li>
+                    <li><a href="index.php?page=home">Home</a></li>
+                    <li><a href="index.php?page=aboutUs">About Us</a></li>
                 </ul>
             </div>
 
@@ -20,6 +19,7 @@
                 <ul>
                     <li><a href="index.php?page=hotels">Hotel Booking</a></li>
                     <li><a href="index.php?page=destinations">Destinations Lookout</a></li>
+                    <li><a href="index.php?page=transport">Transport Facilities</a></li>
                 </ul>
             </div>
 

@@ -19,7 +19,7 @@ session_start(); // Start session at the top
 
 
 // Pages allowed in frontend
-$frontendPages = ['home','hotels','destinations','transport','signupPage','loginPage','adminDashboard','userDashboard','manageDestinations','manageHotels','manageTransport','manageUsers','manageBooking','manageUserBooking'];
+$frontendPages = ['home','hotels','destinations','transport','signupPage','loginPage','adminDashboard','userDashboard','manageDestinations','manageHotels','manageTransport','manageUsers','manageBooking','manageUserBooking', 'aboutUs'];
 
 // Pages allowed in backend
 $backendPages = ['logout','destinationsForm','hotelsForm','transportForm','loginHandler','signupHandler','bookHotel','bookTransport'];
