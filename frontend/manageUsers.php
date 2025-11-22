@@ -154,7 +154,6 @@ $result = mysqli_query($conn, "SELECT * FROM users ORDER BY id DESC");
                 <td data-label="Role"><?= $row['role'] ?></td>
 
                 <td data-label="Actions" class="actions">
-                    <a href="index.php?page=editUser&edit=<?= $row['id'] ?>" class="btn edit">Edit</a>
                     <a href="index.php?page=manageUsers&delete_id=<?= $row['id'] ?>" class="btn delete" onclick="return confirm('Are you sure you want to delete this user?')">Delete</a>
                 </td>
             </tr>
