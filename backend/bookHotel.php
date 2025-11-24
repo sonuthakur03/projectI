@@ -169,10 +169,10 @@ if (!$hotel) die("Hotel not found.");
             <input type="hidden" name="hotel_id" value="<?= $hotel['id'] ?>">
 
             <label>Check-in Date:</label>
-            <input type="date" name="check_in" required>
+            <input type="date" name="check_in" required min="<?= date('Y-m-d') ?>">
 
             <label>Check-out Date:</label>
-            <input type="date" name="check_out" required>
+            <input type="date" name="check_out" required min="<?= date('Y-m-d') ?>">
 
             <label>Guests:</label>
             <input type="number" name="guests" value="1" min="1" required>

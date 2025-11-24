@@ -151,7 +151,7 @@ if (!$transport) die("Transport not found.");
             <input type="hidden" name="transport_id" value="<?= $transport['id'] ?>">
 
             <label>Travel Date:</label>
-            <input type="date" name="travel_date" required>
+            <input type="date" name="travel_date" required min="<?= date('Y-m-d') ?>">
 
             <label>Number of Guests:</label>
             <input type="number" name="guests" value="1" min="1" required>
