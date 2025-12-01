@@ -19,6 +19,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = mysqli_real_escape_string($conn, $_POST["email"]);
     $password = mysqli_real_escape_string($conn, $_POST["password"]); // escape special chars
 
+    if (!preg_match("/^[A-Za-z ]+$/", $name)) {
+        $_SESSION["error"] = "Name should contain letters only!";
+        header("Location: index.php?page=signupPage");
+        exit();
+    }
+
     $sql = "INSERT INTO users(name, email, password) VALUES('$name','$email','$password')";
 
     if (mysqli_query($conn, $sql)) {
