@@ -1,12 +1,11 @@
 <?php
-session_start();
+
 if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
     header("Location: ../frontend/loginPage.php");
     exit();
 }
 
 include __DIR__ . '/../backend/connection.php';
-
 
 $edit = false;
 $editData = null;
@@ -19,6 +18,20 @@ if (isset($_GET['edit'])) {
     $editData = mysqli_fetch_assoc($result);
 }
 
+function textOnly($value) {
+    return preg_match("/^[A-Za-z\s\.,\-]+$/", $value);
+}
+
+function numberOnly($value) {
+    return is_numeric($value);
+}
+
+function validImageURL($value) {
+    return filter_var($value, FILTER_VALIDATE_URL);
+}
+
+$errors = [];
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $title       = $_POST['title'];
@@ -29,33 +42,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $high        = $_POST['highlights'];
     $image       = $_POST['image_url'];
 
-    // if editing → update
-    if (isset($_POST['id']) && $_POST['id'] !== "") {
-        $id = $_POST['id'];
+    // VALIDATION
+    if (!textOnly($title))        $errors[] = "Title must contain letters only.";
+    if (!textOnly($country))      $errors[] = "Country must contain letters only.";
+    if (!textOnly($best))         $errors[] = "Best season must contain letters only.";
+    if (!textOnly($high))         $errors[] = "Highlights must contain letters only.";
+    if (!numberOnly($price))      $errors[] = "Price must contain numbers only.";
+    if (!validImageURL($image))   $errors[] = "Image URL must be a valid URL.";
 
-        $sql = "UPDATE destinations SET 
-            title='$title',
-            country='$country',
-            description='$description',
-            best_season='$best',
-            price_range='$price',
-            highlights='$high',
-            image_url='$image'
-            WHERE id=$id";
+    if (count($errors) === 0) {
+
+        // IF EDIT -> UPDATE
+        if (isset($_POST['id']) && $_POST['id'] !== "") {
+            $id = $_POST['id'];
+
+            $sql = "UPDATE destinations SET 
+                title='$title',
+                country='$country',
+                description='$description',
+                best_season='$best',
+                price_range='$price',
+                highlights='$high',
+                image_url='$image'
+                WHERE id=$id";
+        }
+
+        // ELSE INSERT NEW
+        else {
+            $sql = "INSERT INTO destinations 
+            (title, country, description, best_season, price_range, highlights, image_url)
+            VALUES ('$title','$country','$description','$best','$price','$high','$image')";
+        }
+
+        mysqli_query($conn, $sql);
+
+        header("Location: index.php?page=manageDestinations");
+        exit();
     }
-    // else → insert new
-    else {
-        $sql = "INSERT INTO destinations 
-        (title, country, description, best_season, price_range, highlights, image_url)
-        VALUES ('$title','$country','$description','$best','$price','$high','$image')";
-    }
-
-    mysqli_query($conn, $sql);
-
-    // After saving, go back to manage page
-    header("Location: index.php?page=manageDestinations");
-
-    exit();
 }
 ?>
 <!DOCTYPE html>
@@ -64,11 +87,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title><?= $edit ? "Edit Destination" : "Add Destination" ?></title>
     <link rel="stylesheet" href="/projectI/frontend/css/style.css">
 
-
     <style>
         .form-container {
             max-width: 700px;
-            margin: 60px auto;
+            margin: 120px auto;
             background: #fff;
             padding: 30px;
             border-radius: 12px;
@@ -92,43 +114,67 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         button:hover { background: #148865; }
         img { max-width: 180px; border-radius: 10px; margin-top: 10px; }
+        .error-box {
+            background: #ffdddd;
+            color: #b30000;
+            padding: 12px;
+            border-left: 4px solid red;
+            margin-bottom: 15px;
+            border-radius: 6px;
+        }
     </style>
 </head>
 <body>
-    <?php include __DIR__ . '/../frontend/header.php'; ?>
+<?php include __DIR__ . '/../frontend/header.php'; ?>
 
 <div class="form-container">
-    <h2><?= $edit ? "Edit Destination" : "Add New Destination" ?></h2>
+    <h2 ><?= $edit ? "Edit Destination" : "Add New Destination" ?></h2>
+
+    <?php if (!empty($errors)): ?>
+        <div class="error-box">
+            <?php foreach ($errors as $err): ?>
+                <p><?= $err ?></p>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
 
     <form method="POST">
 
-        <!-- Hidden field for edit -->
         <?php if ($edit): ?>
             <input type="hidden" name="id" value="<?= $editData['id'] ?>">
         <?php endif; ?>
 
         <label>Title</label>
-        <input type="text" name="title" required value="<?= $edit ? $editData['title'] : '' ?>">
+        <input type="text" name="title" required
+               pattern="[A-Za-z\s\.,\-]+"
+               value="<?= $edit ? $editData['title'] : '' ?>">
 
         <label>Country</label>
-        <input type="text" name="country" required value="<?= $edit ? $editData['country'] : '' ?>">
+        <input type="text" name="country" required
+               pattern="[A-Za-z\s\.,\-]+"
+               value="<?= $edit ? $editData['country'] : '' ?>">
 
         <label>Description</label>
         <textarea name="description" rows="3"><?= $edit ? $editData['description'] : '' ?></textarea>
 
         <label>Best Season</label>
-        <input type="text" name="best_season" required value="<?= $edit ? $editData['best_season'] : '' ?>">
+        <input type="text" name="best_season" required
+               pattern="[A-Za-z\s\.,\-]+"
+               value="<?= $edit ? $editData['best_season'] : '' ?>">
 
         <label>Price Range</label>
-        <input type="text" name="price_range" required value="<?= $edit ? $editData['price_range'] : '' ?>">
+        <input type="number" name="price_range" required min="1"
+               value="<?= $edit ? $editData['price_range'] : '' ?>">
 
         <label>Highlights</label>
-        <input type="text" name="highlights" required value="<?= $edit ? $editData['highlights'] : '' ?>">
+        <input type="text" name="highlights" required
+               pattern="[A-Za-z\s\.,\-]+"
+               value="<?= $edit ? $editData['highlights'] : '' ?>">
 
         <label>Image URL</label>
-        <input type="text" name="image_url" required value="<?= $edit ? $editData['image_url'] : '' ?>">
+        <input type="text" name="image_url" required
+               value="<?= $edit ? $editData['image_url'] : '' ?>">
 
-        <!-- Preview image if editing -->
         <?php if ($edit): ?>
             <img src="<?= $editData['image_url'] ?>">
         <?php endif; ?>
@@ -137,6 +183,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </form>
 </div>
 
-    <?php include __DIR__ . '/../frontend/footer.php'; ?>
+<?php include __DIR__ . '/../frontend/footer.php'; ?>
 </body>
 </html>

@@ -96,6 +96,15 @@
         transform: translateY(-2px); /* slight lift */
         box-shadow: 0 6px 14px rgba(0, 184, 148, 0.4); /* stronger shadow */
     }
+    .error-box {
+        background: #ffdddd;
+        color: #d9534f;
+        padding: 12px;
+        margin-bottom: 20px;
+        border: 1px solid #d9534f;
+        border-radius: 8px;
+        font-weight: bold;
+    }
 
     </style>
 </head>
@@ -104,7 +113,13 @@
 
 <div class="auth-container">
     <div class="logo">WanderLux</div>
-    
+           <!-- Error Message -->
+        <?php 
+        if (isset($_SESSION['error'])) { 
+            echo "<div class='error-box'>" . $_SESSION['error'] . "</div>";
+            unset($_SESSION['error']); 
+        } 
+        ?>
     <form method="POST" action="index.php?page=signupHandler">
         <input type="text" name="name" placeholder="Full Name" required>
         <input type="email" name="email" placeholder="Email Address" required>

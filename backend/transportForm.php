@@ -1,5 +1,4 @@
 <?php
-session_start();
 if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
     header("Location: ../frontend/loginPage.php");
     exit();
@@ -79,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             padding: 30px;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            border: 1px solid #000000ff;
+            border: 1px solid #000;
         }
         input, textarea, select {
             width: 100%;
@@ -104,75 +103,81 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             cursor: pointer;
         }
         button:hover { background: #148865; }
-        img { max-width: 180px; border-radius: 10px; margin-top: 10px; }
+        img { 
+            max-width: 180px; 
+            border-radius: 10px; 
+            margin-top: 10px; 
+        }
     </style>
 </head>
 <body>
-    <?php include __DIR__ . '/../frontend/header.php'; ?>
 
-    <div class="form-container">
-        <h2><?= $edit ? "Edit Transport" : "Add New Transport" ?></h2>
+<?php include __DIR__ . '/../frontend/header.php'; ?>
 
-        <form method="POST">
-            <?php if ($edit): ?>
-                <input type="hidden" name="id" value="<?= $editData['id'] ?>">
-            <?php endif; ?>
+<div class="form-container">
+    <h2><?= $edit ? "Edit Transport" : "Add New Transport" ?></h2>
 
-            <label>Transport Service Name</label>
-            <input type="text" name="name" required value="<?= $edit ? $editData['name'] : '' ?>">
+    <form method="POST">
+        <?php if ($edit): ?>
+            <input type="hidden" name="id" value="<?= $editData['id'] ?>">
+        <?php endif; ?>
 
-            <div class="location-row">
-                <div>
-                    <label>From</label>
-                    <input type="text" name="from_location" required value="<?= $edit ? $editData['from_location'] : '' ?>">
-                </div>
-                <div>
-                    <label>To</label>
-                    <input type="text" name="to_location" required value="<?= $edit ? $editData['to_location'] : '' ?>">
-                </div>
+        <label>Transport Service Name</label>
+        <input type="text" name="name" required value="<?= $edit ? $editData['name'] : '' ?>">
+
+        <div class="location-row">
+            <div>
+                <label>From</label>
+                <input type="text" name="from_location" required value="<?= $edit ? $editData['from_location'] : '' ?>">
             </div>
+            <div>
+                <label>To</label>
+                <input type="text" name="to_location" required value="<?= $edit ? $editData['to_location'] : '' ?>">
+            </div>
+        </div>
 
-            <label>Description</label>
-            <textarea name="description" rows="3"><?= $edit ? $editData['description'] : '' ?></textarea>
+        <label>Description</label>
+        <textarea name="description" rows="3"><?= $edit ? $editData['description'] : '' ?></textarea>
 
-            <label>Price (NPR)</label>
-            <input type="number" step="0.01" name="price" required value="<?= $edit ? $editData['price'] : '' ?>">
+        <label>Price (NPR)</label>
+        <input type="number" step="0.01" name="price" required value="<?= $edit ? $editData['price'] : '' ?>">
 
-            <label>Rating</label>
-            <input type="number" step="0.1" min="0" max="5" name="rating" value="<?= $edit ? $editData['rating'] : '' ?>">
+        <label>Rating</label>
+        <input type="number" step="0.1" min="0" max="5" name="rating" value="<?= $edit ? $editData['rating'] : '' ?>">
 
-            <label>Number of Reviews</label>
-            <input type="number" name="reviews" value="<?= $edit ? $editData['reviews'] : '' ?>">
+        <label>Number of Reviews</label>
+        <input type="number" name="reviews" value="<?= $edit ? $editData['reviews'] : '' ?>">
 
-            <label>Transport Type</label>
-            <select name="type">
-                <option value="">Select type</option>
-                <?php 
-                $types = ['Bus', 'Car Rental', 'Taxi', 'Motorcycle', 'Jeep'];
-                foreach ($types as $t) {
-                    $selected = ($edit && $editData['type'] === $t) ? 'selected' : '';
-                    echo "<option value='$t' $selected>$t</option>";
-                }
-                ?>
-            </select>
+        <label>Transport Type</label>
+        <select name="type">
+            <option value="">Select type</option>
+            <?php 
+            $types = ['Bus', 'Car Rental', 'Taxi', 'Motorcycle', 'Jeep'];
+            foreach ($types as $t) {
+                $selected = ($edit && $editData['type'] === $t) ? 'selected' : '';
+                echo "<option value='$t' $selected>$t</option>";
+            }
+            ?>
+        </select>
 
-            <label>Duration</label>
-            <input type="text" name="duration" value="<?= $edit ? $editData['duration'] : '' ?>">
+        <label>Duration</label>
+        <input type="text" name="duration" value="<?= $edit ? $editData['duration'] : '' ?>">
 
-            <label>Departure Time</label>
-            <input type="text" name="departure_time" value="<?= $edit ? $editData['departure_time'] : '' ?>">
+        <label>Departure Time</label>
+        <input type="text" name="departure_time" value="<?= $edit ? $editData['departure_time'] : '' ?>">
 
-            <label>Image URL</label>
-            <input type="text" name="image_url" value="<?= $edit ? $editData['image_url'] : '' ?>">
+        <label>Image URL</label>
+        <input type="text" name="image_url" value="<?= $edit ? $editData['image_url'] : '' ?>">
 
-            <?php if ($edit): ?>
-                <img src="<?= $editData['image_url'] ?>" alt="Transport Image">
-            <?php endif; ?>
+        <?php if ($edit): ?>
+            <img src="<?= $editData['image_url'] ?>" alt="Transport Image">
+        <?php endif; ?>
 
-            <button type="submit"><?= $edit ? "Update" : "Add" ?></button>
-        </form>
-    </div>
+        <button type="submit"><?= $edit ? "Update" : "Add" ?></button>
+    </form>
+</div>
 
-    <?php include __DIR__ . '/../frontend/footer.php'; ?>
+<?php include __DIR__ . '/../frontend/footer.php'; ?>
+
 </body>
 </html>
