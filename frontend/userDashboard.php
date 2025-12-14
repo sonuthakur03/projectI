@@ -194,7 +194,6 @@ $transportBookings = mysqli_query($conn, "
             <a href="index.php?page=destinations">Destinations</a>
             <a href="index.php?page=hotels">Hotels</a>
             <a href="index.php?page=transport">Transport</a>
-            <a href="index.php?page=manageBooking&type=hotel">My Bookings</a>
         </nav>
     </div>
 
