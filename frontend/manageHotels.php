@@ -45,7 +45,7 @@ $result = mysqli_query($conn, "SELECT * FROM hotels ORDER BY id DESC");
 
         .btn-add {
             display: inline-block;
-            margin: 20px auto;
+            /* margin: 20px auto; */
             padding: 12px 20px;
             background: #2ecc71;
             color: #fff;
@@ -66,6 +66,7 @@ $result = mysqli_query($conn, "SELECT * FROM hotels ORDER BY id DESC");
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
         }
 
         th, td {
@@ -147,6 +148,14 @@ $result = mysqli_query($conn, "SELECT * FROM hotels ORDER BY id DESC");
                 text-align: left;
             }
         }
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            width: 100%;
+            text-align: right;
+        }
     </style>
 </head>
 <body>
@@ -154,7 +163,10 @@ $result = mysqli_query($conn, "SELECT * FROM hotels ORDER BY id DESC");
 <?php include "header.php"; ?>
 
 <div class="container">
-    <h2>Manage Hotels</h2>
+        <div class="header-section">
+            <h2>Manage Hotels</h2>
+            <a href="index.php?page=hotelsForm" class="btn-add">Add New Hotel</a>
+        </div>
 
     <table>
         <tr>
@@ -174,7 +186,7 @@ $result = mysqli_query($conn, "SELECT * FROM hotels ORDER BY id DESC");
                 <td data-label="ID"><?= $row['id'] ?></td>
                 <td data-label="Name"><?= $row['name'] ?></td>
                 <td data-label="Location"><?= $row['location'] ?></td>
-                <td data-label="Price">$<?= $row['price'] ?></td>
+                <td data-label="Price">Nrs.<?= $row['price'] ?></td>
                 <td data-label="Rating"><?= $row['rating'] ?>/5</td>
                 <td data-label="Reviews"><?= $row['reviews'] ?></td>
                 <td data-label="Type"><?= $row['type'] ?></td>
@@ -191,8 +203,6 @@ $result = mysqli_query($conn, "SELECT * FROM hotels ORDER BY id DESC");
         <?php } ?>
 
     </table>
-
-    <a href="index.php?page=hotelsForm" class="btn-add">Add New Hotel</a>
 </div>
 
 <?php include "footer.php"; ?>

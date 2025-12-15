@@ -44,7 +44,7 @@ $result = mysqli_query($conn, "SELECT * FROM transport ORDER BY id DESC");
 
         .btn-add {
             display: inline-block;
-            margin: 20px auto;
+            /* margin: 20px auto; */
             padding: 12px 20px;
             background: #2ecc71;
             color: #fff;
@@ -64,6 +64,7 @@ $result = mysqli_query($conn, "SELECT * FROM transport ORDER BY id DESC");
             background: #fff;
             border-radius: 12px;
             overflow: hidden;
+            margin-bottom: 20px;
             box-shadow: 0 6px 20px rgba(0,0,0,0.1);
         }
 
@@ -146,6 +147,14 @@ $result = mysqli_query($conn, "SELECT * FROM transport ORDER BY id DESC");
                 text-align: left;
             }
         }
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            width: 100%;
+            text-align: right;
+        }
     </style>
 </head>
 <body>
@@ -153,7 +162,10 @@ $result = mysqli_query($conn, "SELECT * FROM transport ORDER BY id DESC");
 <?php include "header.php"; ?>
 
 <div class="container">
-    <h2>Manage Transport</h2>
+        <div class="header-section">
+            <h2>Manage Transport</h2>
+            <a href="index.php?page=transportForm" class="btn-add">Add New Transport</a>
+        </div>
 
     <table>
         <tr>
@@ -194,8 +206,6 @@ $result = mysqli_query($conn, "SELECT * FROM transport ORDER BY id DESC");
         <?php } ?>
 
     </table>
-
-    <a href="index.php?page=transportForm" class="btn-add">Add New Transport</a>
 </div>
 
 <?php include "footer.php"; ?>

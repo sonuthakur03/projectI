@@ -25,7 +25,6 @@ $result = mysqli_query($conn, "SELECT * FROM destinations ORDER BY id DESC");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Destinations</title>
-    <link rel="stylesheet" href="../frontend/css/style.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -49,7 +48,7 @@ $result = mysqli_query($conn, "SELECT * FROM destinations ORDER BY id DESC");
 
         .btn-add {
             display: inline-block;
-            margin: 20px auto;
+            /* margin: 20px auto; */
             padding: 12px 20px;
             background: #2ecc71;
             color: #fff;
@@ -67,6 +66,7 @@ $result = mysqli_query($conn, "SELECT * FROM destinations ORDER BY id DESC");
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
         }
 
         th, td {
@@ -158,13 +158,25 @@ $result = mysqli_query($conn, "SELECT * FROM destinations ORDER BY id DESC");
                 text-align: left;
             }
         }
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            width: 100%;
+            text-align: right;
+        }
     </style>
 </head>
 <body>
     <?php include "header.php" ?>
 
 <div class="container">
-        <h2>Manage Destinations</h2>
+        <div class="header-section">
+            <h2>Manage Destinations</h2>
+            <a href="index.php?page=destinationsForm" class="btn-add">Add New Destination</a>
+        </div>
+
     <table>
         <tr>
             <th>ID</th>
@@ -199,7 +211,6 @@ $result = mysqli_query($conn, "SELECT * FROM destinations ORDER BY id DESC");
             </tr>
             <?php } ?>
         </table>
-        <a href="index.php?page=destinationsForm" class="btn-add">Add New Destination</a>
 </div>
     <?php include "footer.php" ?>
 </body>
