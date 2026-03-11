@@ -105,6 +105,8 @@
         <h1>Discover Premium Hotels</h1>
         <p>From luxury resorts to boutique experiences, find your perfect stay with exclusive deals and expert recommendations.</p>
     </section>
+    <?php $destination = $_GET['destination'] ?? "All"; ?>
+<h2 style="text-align: center;">Hotels in <?php echo htmlspecialchars($destination); ?></h2>
 
     <?php include "hotelsCard.php" ?>
 

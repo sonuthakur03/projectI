@@ -32,7 +32,9 @@ $destinations = $conn->query($sql);
                         <div class="card-highlights">
                             <?php echo htmlspecialchars($dest['highlights']); ?>
                         </div>
-                        <a href="index.php?page=hotels" class="explore-btn">Explore Destination</a>
+                        <a href="index.php?page=hotels&destination=<?php echo urlencode($dest['title']); ?>" class="explore-btn">
+    Explore Destination
+</a>
                     </div>
                 </div>
             <?php endforeach; ?>
